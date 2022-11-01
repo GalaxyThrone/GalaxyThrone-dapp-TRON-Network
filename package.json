@@ -1,0 +1,27 @@
+{
+  "name": "galaxygon-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 4200",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@web3-onboard/injected-wallets": "^2.2.4",
+    "@web3-onboard/react": "^2.3.6",
+    "ethers": "^5.7.2",
+    "moment": "^2.29.4",
+    "next": "12.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.12",
+    "eslint": "8.26.0",
+    "eslint-config-next": "12.3.1",
+    "postcss": "^8.4.18",
+    "tailwindcss": "^3.2.1"
+  }
+}

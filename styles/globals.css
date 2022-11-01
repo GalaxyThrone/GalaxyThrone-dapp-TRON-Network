@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.font-teko {
+  font-family: "Teko";
+}
+
+.font-orbitron {
+  font-family: "Orbitron";
+}
+
+.font-audiowide {
+  font-family: "Audiowide";
+}
+
+body {
+  font-family: "Teko";
+}
