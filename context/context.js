@@ -20,16 +20,16 @@ import metalABI from "../lib/contracts/Metal.json";
 import planetsABI from "../lib/contracts/Planets.json";
 
 const rpcUrl =
-  "https://cool-methodical-meme.xdai.discover.quiknode.pro/cbe3d986e18bafdb74cff8466f2fac7de9116cf3/";
+  "https://polygon-mumbai.g.alchemy.com/v2/SeyWmSZubocxNcqaWaiR--xe00RiT1ig";
 const injected = injectedModule();
 
 init({
   wallets: [injected],
   chains: [
     {
-      id: "0x100",
-      token: "xDAI",
-      label: "Gnosis chain",
+      id: "0x80001",
+      token: "MATIC",
+      label: "Polygon Mumbai",
       rpcUrl,
     },
   ],
