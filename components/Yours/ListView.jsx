@@ -1,6 +1,6 @@
 import { allPlanets } from "../../lib/planets";
 import Card from "../_shared/Card";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import Galaxygon from "../../context/context";
 
 const ListView = ({ category }) => {
