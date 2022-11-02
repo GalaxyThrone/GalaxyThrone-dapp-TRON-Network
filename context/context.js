@@ -18,6 +18,7 @@ import ethereusABI from "../lib/contracts/Ethereus.json";
 import fleetsABI from "../lib/contracts/Fleets.json";
 import metalABI from "../lib/contracts/Metal.json";
 import planetsABI from "../lib/contracts/Planets.json";
+import { useRouter } from "next/router";
 
 const rpcUrl =
   "https://polygon-mumbai.g.alchemy.com/v2/SeyWmSZubocxNcqaWaiR--xe00RiT1ig";
@@ -43,6 +44,7 @@ init({
 const Galaxygon = createContext();
 
 export const GalaxygonProvider = ({ children }) => {
+  const router = useRouter();
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
@@ -63,6 +65,7 @@ export const GalaxygonProvider = ({ children }) => {
   const [userMetal, setUserMetal] = useState(null);
   const [userCrystal, setUserCrystal] = useState(null);
   const [userEthereus, setUserEthereus] = useState(null);
+  const [resources, setResources] = useState([]);
 
   useEffect(() => {
     const mProvider = new ethers.providers.JsonRpcProvider(rpcUrl);
@@ -186,17 +189,32 @@ export const GalaxygonProvider = ({ children }) => {
   useEffect(() => {
     if (metalContract && crystalContract && ethereusContract && userAddress) {
       const checkBalance = async () => {
-        const metal = await metalContract.balanceOf(userAddress);
-        const crystal = await crystalContract.balanceOf(userAddress);
-        const ethereus = await ethereusContract.balanceOf(userAddress);
+        const metal = parseInt(
+          ethers.utils.formatUnits(await metalContract.balanceOf(userAddress))
+        );
+        const crystal = parseInt(
+          ethers.utils.formatUnits(await crystalContract.balanceOf(userAddress))
+        );
+        const ethereus = parseInt(
+          ethers.utils.formatUnits(
+            await ethereusContract.balanceOf(userAddress)
+          )
+        );
 
-        setUserMetal(parseInt(ethers.utils.formatUnits(metal)));
-        setUserCrystal(parseInt(ethers.utils.formatUnits(crystal)));
-        setUserEthereus(parseInt(ethers.utils.formatUnits(ethereus)));
+        setUserMetal(metal);
+        setUserCrystal(crystal);
+        setUserEthereus(ethereus);
+        setResources([metal, crystal, ethereus]);
       };
       checkBalance();
     }
-  }, [metalContract, crystalContract, ethereusContract, userAddress]);
+  }, [
+    metalContract,
+    crystalContract,
+    ethereusContract,
+    userAddress,
+    router.query,
+  ]);
 
   useEffect(() => {
     if (planetsTotalSupply) {
@@ -235,6 +253,7 @@ export const GalaxygonProvider = ({ children }) => {
         userMetal,
         userCrystal,
         userEthereus,
+        resources,
       }}
     >
       {children}

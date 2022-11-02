@@ -2,6 +2,7 @@ import { allPlanets } from "../../lib/planets";
 import Card from "../_shared/Card";
 import { useContext } from "react";
 import Galaxygon from "../../context/context";
+import Resources from "./Resources";
 
 const ListView = ({ category }) => {
   const route = "yours";
@@ -9,8 +10,8 @@ const ListView = ({ category }) => {
   const { userPlanetsIds } = useContext(Galaxygon);
 
   const main = () => {
-    if (category === "all") {
-      return;
+    if (category === "resources") {
+      return <Resources />;
     } else if (category === "planets" && userPlanetsIds.length > 0) {
       return (
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-12">
