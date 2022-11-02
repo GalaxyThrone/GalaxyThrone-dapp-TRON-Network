@@ -22,7 +22,7 @@ const Resources = () => {
     return (
       <div className="w-full flex flex-col items-center gap-6 self-center text-black text-sm">
         {resources?.map((r, i) => (
-          <div className="w-full flex items-center gap-20">
+          <div key={i} className="w-full flex items-center gap-20">
             <div className="w-1/6">
               <ResourceDisplay key={i} resource={r} i={i} />
             </div>
