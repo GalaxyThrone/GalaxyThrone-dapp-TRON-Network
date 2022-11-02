@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import ListView from "../../../components/Planets/ListView";
+import ListView from "../../../components/Yours/ListView";
 import InnerLayout from "../../../components/_shared/InnerLayout";
 
 const App = () => {

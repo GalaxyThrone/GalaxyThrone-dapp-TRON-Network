@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import InnerLayout from "../../../../components/_shared/InnerLayout";
 import Galaxygon from "../../../../context/context";
 import { allPlanets } from "../../../../lib/planets";
@@ -9,10 +10,22 @@ const App = () => {
   const router = useRouter();
   const { planetsInfo } = useContext(Galaxygon);
 
-  const rootSplit = router.asPath.split("/");
-  const rootPath = rootSplit[3].toLowerCase();
+  const [category, setCategory] = useState(null);
+  const [id, setId] = useState(null);
+  const [item, setItem] = useState(null);
 
-  const item = allPlanets[Number(rootPath) - 1];
+  useEffect(() => {
+    if (router.query.category && router.query.id) {
+      setCategory(router.query.category);
+      setId(router.query.id.toLowerCase());
+    }
+  }, [router.query]);
+
+  useEffect(() => {
+    if (id && category) {
+      setItem(allPlanets[Number(id) - 1]);
+    }
+  }, [category, id]);
 
   return (
     <InnerLayout>
@@ -23,13 +36,17 @@ const App = () => {
           </div>
           <div className="w-1/2 2xl:w-2/5 h-full text-center flex flex-col justify-between">
             <div>
-              <div className="text-4xl font-bold font-audiowide text-brand-lightBlue uppercase">
-                {item?.name}
-              </div>
+              <Link href={`/yours/${category}`}>
+                <div className="flex items-center justify-center text-4xl font-bold font-audiowide text-brand-lightBlue uppercase cursor-pointer hover:opacity-80 relative">
+                  <div className="absolute left-0">{"<"}</div>
+                  <div>{item?.name}</div>
+                </div>
+              </Link>
               <div className="text-xl mt-8">{item?.desc}</div>
             </div>
+
             {planetsInfo.map((p, i) => {
-              if (i + 1 == item.name) {
+              if (i + 1 == item?.name) {
                 return (
                   <div key={i} className="flex flex-col">
                     <div className="flex items-center justify-between mb-14 w-3/4 self-center">
