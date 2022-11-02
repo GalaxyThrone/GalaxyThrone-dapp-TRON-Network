@@ -5,14 +5,8 @@ import Galaxygon from "../../context/context";
 import { resources } from "../../lib/resource";
 
 const Item = ({ category }) => {
-  const {
-    userAddress,
-    metalContract,
-    crystalContract,
-    ethereusContract,
-    userPlanetsIds,
-    diamond,
-  } = useContext(Galaxygon);
+  const { userMetal, userCrystal, userEthereus, userPlanetsIds, diamond } =
+    useContext(Galaxygon);
   const [value, setValue] = useState(null);
 
   const router = useRouter();
@@ -20,6 +14,7 @@ const Item = ({ category }) => {
   const rootSplit = router.asPath.split("/");
   const rootPath = rootSplit[0].toLowerCase();
 
+  // change userPlanetsIds to find the correct one
   const claim = async () => {
     if (category === "metal") {
       await diamond.mineMetal(userPlanetsIds[0]);
@@ -33,29 +28,21 @@ const Item = ({ category }) => {
   };
 
   useEffect(() => {
-    if (
-      metalContract &&
-      crystalContract &&
-      ethereusContract &&
-      userAddress &&
-      category
-    ) {
-      const checkBalance = async () => {
-        let balance;
+    if (userMetal && userCrystal && userEthereus) {
+      const checkBalance = () => {
         if (category === "metal") {
-          balance = await metalContract.balanceOf(userAddress);
+          setValue(userMetal);
         }
         if (category === "crystal") {
-          balance = await crystalContract.balanceOf(userAddress);
+          setValue(userCrystal);
         }
         if (category === "ethereus") {
-          balance = await ethereusContract.balanceOf(userAddress);
+          setValue(userEthereus);
         }
-        setValue(parseInt(ethers.utils.formatUnits(balance)));
       };
       checkBalance();
     }
-  }, [metalContract, crystalContract, ethereusContract, userAddress, category]);
+  }, [userMetal, userCrystal, userEthereus, category]);
 
   return (
     <div className="flex flex-col">

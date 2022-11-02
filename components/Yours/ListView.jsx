@@ -30,7 +30,7 @@ const ListView = ({ category }) => {
         </div>
       );
     } else {
-      return <div>to Add</div>;
+      return <div>Register or Connect</div>;
     }
   };
 

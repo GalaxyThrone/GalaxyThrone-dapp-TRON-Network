@@ -60,6 +60,9 @@ export const GalaxygonProvider = ({ children }) => {
   const [userPlanetsIds, setUserPlanetsIds] = useState([]);
   const [planetsTotalSupply, setPlanetsTotalSupply] = useState(null);
   const [planetsInfo, setPlanetsInfo] = useState([]);
+  const [userMetal, setUserMetal] = useState(null);
+  const [userCrystal, setUserCrystal] = useState(null);
+  const [userEthereus, setUserEthereus] = useState(null);
 
   useEffect(() => {
     const mProvider = new ethers.providers.JsonRpcProvider(rpcUrl);
@@ -181,6 +184,21 @@ export const GalaxygonProvider = ({ children }) => {
   }, [balanceOf]);
 
   useEffect(() => {
+    if (metalContract && crystalContract && ethereusContract && userAddress) {
+      const checkBalance = async () => {
+        const metal = await metalContract.balanceOf(userAddress);
+        const crystal = await crystalContract.balanceOf(userAddress);
+        const ethereus = await ethereusContract.balanceOf(userAddress);
+
+        setUserMetal(parseInt(ethers.utils.formatUnits(metal)));
+        setUserCrystal(parseInt(ethers.utils.formatUnits(crystal)));
+        setUserEthereus(parseInt(ethers.utils.formatUnits(ethereus)));
+      };
+      checkBalance();
+    }
+  }, [metalContract, crystalContract, ethereusContract, userAddress]);
+
+  useEffect(() => {
     if (planetsTotalSupply) {
       const getPlanetInfo = async () => {
         let planets = [];
@@ -214,6 +232,9 @@ export const GalaxygonProvider = ({ children }) => {
         setIsRegistered,
         userPlanetsIds,
         planetsInfo,
+        userMetal,
+        userCrystal,
+        userEthereus,
       }}
     >
       {children}
