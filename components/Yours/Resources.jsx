@@ -3,14 +3,16 @@ import { useContext, useEffect, useState } from "react";
 import Galaxygon from "../../context/context";
 import { HOUR_TO_SEC } from "../../lib/constants";
 import ResourceDisplay from "../_shared/ResourceDisplay";
+import ClaimPlanet from "./ClaimPlanet";
 
 const Resources = () => {
   const { resources, userPlanetsIds, diamond, planetsContract } =
     useContext(Galaxygon);
   const [planetIds, setPlanetIds] = useState([]);
-  const [toClaim, setToClaim] = useState([]);
+  const [timeToClaim, setTimeToClaim] = useState([]);
   const [boosts, setBoosts] = useState([]);
   const [open, setOpen] = useState(null);
+  const [toClaim, setToClaim] = useState([]);
 
   const claim = async (i) => {
     if (i === 0) {
@@ -25,10 +27,10 @@ const Resources = () => {
   };
 
   const checkToClaim = (i) => {
-    if (toClaim[i] + HOUR_TO_SEC * 8 < moment().unix()) {
+    if (timeToClaim[i] + HOUR_TO_SEC * 8 < moment().unix()) {
       return <div className="text-white">ready to claim</div>;
     } else {
-      const diff = toClaim[i] + HOUR_TO_SEC * 8 - moment().unix();
+      const diff = timeToClaim[i] + HOUR_TO_SEC * 8 - moment().unix();
       const duration = moment.duration(diff * 1000, "milliseconds");
       return (
         <div className="text-white">
@@ -53,7 +55,7 @@ const Resources = () => {
             Number(await planetsContract.getLastClaimed(planetIds[i], i))
           );
         }
-        setToClaim(arr);
+        setTimeToClaim(arr);
       };
 
       const fetchBoost = async () => {
@@ -70,7 +72,6 @@ const Resources = () => {
   }, [planetsContract, planetIds]);
 
   const checkResources = () => {
-    console.log(1);
     return (
       <div className="w-full flex flex-col items-center gap-6 self-center text-black text-sm">
         {resources?.map((r, i) => (
@@ -79,63 +80,28 @@ const Resources = () => {
               <ResourceDisplay key={i} resource={r} i={i} />
             </div>
             <div className="w-2/6">
-              {userPlanetsIds.length > 0 && (
-                <div className="flex items-center justify-between text-sm font-orbitron">
-                  <div
-                    onClick={() => claim(i)}
-                    className="bg-gradient-to-tr w-2/5 from-brand-lightBlue to-brand-lightCyan uppercase text-center text-white font-semibold py-2 px-6 rounded-lg cursor-pointer hover:opacity-90"
-                  >
-                    Claim
-                  </div>
-                  <div
-                    onClick={() => setOpen(open === i ? null : i)}
-                    className={`relative w-2/5 p-2 py-1 text-center text-gray-700 bg-white border ${
-                      open === i ? "rounded-t-lg" : "rounded-lg"
-                    } shadow-sm cursor-pointer`}
-                  >
-                    <div className="flex items-center gap-5">
-                      <img
-                        src={`/brand/planets/${planetIds[i]}.png`}
-                        className="w-10 rounded"
-                      />
-                      <div>{planetIds[i]}</div>
-                    </div>
-                    <div
-                      className={`w-[calc(100%+2px)] absolute left-[-1px] top-[35px] z-[100] ${
-                        open === i ? "block" : "hidden"
-                      } p-2.5 py-1 text-gray-500 bg-white border rounded-b-lg shadow-sm`}
-                    >
-                      {userPlanetsIds.map((id, j) => (
-                        <div
-                          onClick={() => {
-                            const arr = planetIds;
-                            arr[i] = id;
-                            setPlanetIds(arr);
-                          }}
-                          key={j}
-                          className={`flex items-center gap-5 ${
-                            j !== 0 && "border-b"
-                          }`}
-                        >
-                          <img
-                            src={`/brand/planets/${id}.png`}
-                            className="w-10 rounded"
-                          />
-                          <div>{id}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
+              <ClaimPlanet
+                info={{
+                  claim,
+                  i,
+                  setOpen,
+                  open,
+                  planetIds,
+                  userPlanetsIds,
+                  setPlanetIds,
+                }}
+              />
             </div>
-            <div className="w-1/5">{checkToClaim(i)}</div>
-            <div className="text-white">{boosts[i]}</div>
+            <div className="w-1/5 text-white">
+              {(timeToClaim.length > 0 && checkToClaim(i)) || "loading..."}
+            </div>
+            <div className="text-white">{boosts.length && boosts[i]}</div>
           </div>
         ))}
       </div>
     );
   };
+
   return (
     <div className="flex items-center rounded-xl bg-brand-darkBlue w-full h-full text-white font-orbitron uppercase rounded-tr-xl border-b border-brand-darkestBlue p-10">
       <div className="w-full flex flex-col gap-7">
