@@ -19,6 +19,7 @@ import fleetsABI from "../lib/contracts/Fleets.json";
 import metalABI from "../lib/contracts/Metal.json";
 import planetsABI from "../lib/contracts/Planets.json";
 import { useRouter } from "next/router";
+import moment from "moment";
 
 const rpcUrl =
   "https://polygon-mumbai.g.alchemy.com/v2/SeyWmSZubocxNcqaWaiR--xe00RiT1ig";
@@ -66,6 +67,9 @@ export const GalaxygonProvider = ({ children }) => {
   const [userCrystal, setUserCrystal] = useState(null);
   const [userEthereus, setUserEthereus] = useState(null);
   const [resources, setResources] = useState([]);
+  const [buildingCrafting, setBuildingCrafting] = useState(false);
+  const [buildingClaim, setBuildingClaim] = useState(false);
+  const [resourcesClaimed, setResourcesClaimed] = useState(false);
 
   useEffect(() => {
     const mProvider = new ethers.providers.JsonRpcProvider(rpcUrl);
@@ -214,6 +218,7 @@ export const GalaxygonProvider = ({ children }) => {
     ethereusContract,
     userAddress,
     router.query,
+    resourcesClaimed,
   ]);
 
   useEffect(() => {
@@ -229,6 +234,21 @@ export const GalaxygonProvider = ({ children }) => {
       getPlanetInfo();
     }
   }, [planetsTotalSupply]);
+
+  useEffect(() => {
+    if (diamond && userPlanetsIds.length > 0) {
+      const checkCraft = async () => {
+        const timestamp = await diamond.getCraftBuildings(userPlanetsIds[0]);
+        const now = moment().unix();
+        if (now < parseInt(ethers.utils.formatUnits(timestamp[1], 0))) {
+          setBuildingCrafting(true);
+        } else if (parseInt(ethers.utils.formatUnits(timestamp[1], 0)) !== 0) {
+          setBuildingClaim(true);
+        }
+      };
+      checkCraft();
+    }
+  }, [diamond, userPlanetsIds, router.query]);
 
   return (
     <Galaxygon.Provider
@@ -254,6 +274,10 @@ export const GalaxygonProvider = ({ children }) => {
         userCrystal,
         userEthereus,
         resources,
+        buildingClaim,
+        buildingCrafting,
+        resourcesClaimed,
+        setResourcesClaimed,
       }}
     >
       {children}

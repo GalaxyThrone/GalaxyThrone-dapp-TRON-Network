@@ -19,7 +19,7 @@ const Craft = ({ craftInfo, route, claim }) => {
       await diamond.claimBuilding(userPlanetsIds[0]); // to change to handle more planets
     }
     if (route === "fleet") {
-      await diamond.claimFleet(serPlanetsIds[0]); // to change to handle more planets
+      await diamond.claimFleet(userPlanetsIds[0]); // to change to handle more planets
     }
   };
 

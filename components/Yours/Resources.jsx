@@ -6,23 +6,35 @@ import ResourceDisplay from "../_shared/ResourceDisplay";
 import ClaimPlanet from "./ClaimPlanet";
 
 const Resources = () => {
-  const { resources, userPlanetsIds, diamond, planetsContract } =
-    useContext(Galaxygon);
+  const {
+    resources,
+    userPlanetsIds,
+    diamond,
+    planetsContract,
+    resourceClaimed,
+    setResourcesClaimed,
+  } = useContext(Galaxygon);
   const [planetIds, setPlanetIds] = useState([]);
   const [timeToClaim, setTimeToClaim] = useState([]);
   const [boosts, setBoosts] = useState([]);
   const [open, setOpen] = useState(null);
-  const [toClaim, setToClaim] = useState([]);
 
   const claim = async (i) => {
+    let tx;
     if (i === 0) {
-      await diamond.mineMetal(planetIds[i]);
+      tx = await diamond.mineMetal(planetIds[i]);
     }
     if (i === 1) {
-      await diamond.mineCrystal(planetIds[i]);
+      tx = await diamond.mineCrystal(planetIds[i]);
     }
     if (i === 2) {
-      await diamond.mineEthereus(planetIds[i]);
+      tx = await diamond.mineEthereus(planetIds[i]);
+    }
+
+    const recipt = await tx.wait();
+
+    if (Number(recipt.status) === 1) {
+      setResourcesClaimed(!resourceClaimed);
     }
   };
 
@@ -69,7 +81,7 @@ const Resources = () => {
       fetchTime();
       fetchBoost();
     }
-  }, [planetsContract, planetIds]);
+  }, [planetsContract, planetIds, resourceClaimed]);
 
   const checkResources = () => {
     return (
@@ -89,6 +101,7 @@ const Resources = () => {
                   planetIds,
                   userPlanetsIds,
                   setPlanetIds,
+                  timeToClaim,
                 }}
               />
             </div>

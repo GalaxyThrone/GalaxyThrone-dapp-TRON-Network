@@ -1,14 +1,31 @@
+import moment from "moment";
+import { HOUR_TO_SEC } from "../../lib/constants";
+
 const ClaimPlanet = ({ info }) => {
-  const { claim, i, setOpen, open, planetIds, userPlanetsIds, setPlanetIds } =
-    info;
+  const {
+    claim,
+    i,
+    setOpen,
+    open,
+    planetIds,
+    userPlanetsIds,
+    setPlanetIds,
+    timeToClaim,
+  } = info;
 
   return (
     <div>
       {userPlanetsIds.length > 0 && (
         <div className="flex items-center justify-between text-sm font-orbitron">
           <div
-            onClick={() => claim(i)}
-            className="bg-gradient-to-tr w-2/5 from-brand-lightBlue to-brand-lightCyan uppercase text-center text-white font-semibold py-2 px-6 rounded-lg cursor-pointer hover:opacity-90"
+            onClick={() => {
+              if (timeToClaim[i] + HOUR_TO_SEC * 8 < moment().unix()) claim(i);
+            }}
+            className={` w-2/5 ${
+              timeToClaim[i] + HOUR_TO_SEC * 8 < moment().unix()
+                ? "bg-gradient-to-tr from-brand-lightBlue to-brand-lightCyan cursor-pointer hover:opacity-90"
+                : "bg-gray-300"
+            } uppercase text-center text-white font-semibold py-2 px-6 rounded-lg`}
           >
             Claim
           </div>
