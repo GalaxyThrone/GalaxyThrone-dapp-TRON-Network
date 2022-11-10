@@ -8,11 +8,12 @@ import { allPlanets } from "../../../../lib/planets";
 
 const App = () => {
   const router = useRouter();
-  const { planetsInfo } = useContext(Galaxygon);
+  const { planetsInfo, planetsContract, userAddress } = useContext(Galaxygon);
 
   const [category, setCategory] = useState(null);
   const [id, setId] = useState(null);
   const [item, setItem] = useState(null);
+  const [ownr, setOwnr] = useState(null);
 
   useEffect(() => {
     if (router.query.category && router.query.id) {
@@ -26,6 +27,25 @@ const App = () => {
       setItem(allPlanets[Number(id) - 1]);
     }
   }, [category, id]);
+
+  useEffect(() => {
+    if (item) {
+      const checkOwner = async () => {
+        let owner = await planetsContract.ownerOf(Number(item.name));
+
+        if (owner === "0xceED381d01ec235fB37d7e4b407fe7122696308a") {
+          owner = "Nobody";
+        }
+
+        if (owner.toLowerCase() === userAddress.toLowerCase()) {
+          owner = "Your Planet";
+        }
+
+        setOwnr(owner);
+      };
+      checkOwner();
+    }
+  }, [item]);
 
   return (
     <InnerLayout>
@@ -42,7 +62,17 @@ const App = () => {
                   <div>{item?.name}</div>
                 </div>
               </Link>
-              <div className="text-xl mt-8">{item?.desc}</div>
+              {ownr && (
+                <div className="text-2xl mt-2">
+                  Owner:{" "}
+                  <span className="text-brand-lightCyan">
+                    {ownr.length < 14
+                      ? ownr
+                      : ownr.substring(0, 5) + "..." + ownr.substring(39)}
+                  </span>
+                </div>
+              )}
+              <div className="text-xl mt-4">{item?.desc}</div>
             </div>
 
             {planetsInfo.map((p, i) => {

@@ -88,7 +88,7 @@ const InnerNav = ({ active }) => {
   return (
     <div className="flex items-center justify-between bg-brand-darkBlue w-full h-full text-white font-orbitron uppercase rounded-tr-xl border-b border-brand-darkestBlue px-8">
       {main()}
-      {resources && checkResources()}
+      {resources && router.asPath !== "/home" && checkResources()}
     </div>
   );
 };

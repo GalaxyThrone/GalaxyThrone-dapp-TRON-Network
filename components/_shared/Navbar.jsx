@@ -4,7 +4,7 @@ import Galaxygon from "../../context/context";
 import { useRouter } from "next/router";
 
 const NavBar = () => {
-  const { connect, wallet } = useContext(Galaxygon);
+  const { connect, userAddress } = useContext(Galaxygon);
   const router = useRouter();
   const pathname = router.pathname;
 
@@ -35,10 +35,8 @@ const NavBar = () => {
           onClick={() => connect()}
           className="bg-gradient-to-tr from-brand-lightBlue to-brand-lightCyan uppercase text-white font-semibold px-6 py-2 rounded-xl cursor-pointer hover:opacity-90"
         >
-          {wallet
-            ? wallet.accounts[0].address.substring(0, 5) +
-              "..." +
-              wallet.accounts[0].address.substring(39)
+          {userAddress
+            ? userAddress.substring(0, 5) + "..." + userAddress.substring(39)
             : "Connect"}
         </div>
       </div>

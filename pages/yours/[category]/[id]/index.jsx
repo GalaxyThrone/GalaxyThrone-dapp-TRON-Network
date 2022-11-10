@@ -42,6 +42,11 @@ const App = () => {
                   <div>{item?.name}</div>
                 </div>
               </Link>
+
+              <div className="text-2xl mt-2">
+                Owner: <span className="text-brand-lightCyan">Your Planet</span>
+              </div>
+
               <div className="text-xl mt-8">{item?.desc}</div>
             </div>
 
