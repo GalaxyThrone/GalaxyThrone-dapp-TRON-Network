@@ -244,6 +244,7 @@ export const GalaxygonProvider = ({ children }) => {
           setBuildingCrafting(true);
         } else if (parseInt(ethers.utils.formatUnits(timestamp[1], 0)) !== 0) {
           setBuildingClaim(true);
+          setBuildingCrafting(false);
         }
       };
       checkCraft();
