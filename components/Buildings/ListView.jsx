@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import Galaxygon from "../../context/context";
 import { allBuildings } from "../../lib/buildings";
 import CraftModal from "../Modals/Craft/CraftModal";
 
 import Card from "../_shared/Card";
 
 const ListView = ({ category }) => {
+  const { buildingClaim } = useContext(Galaxygon);
   const route = "buildings";
   const [showCraft, setShowCraft] = useState(false);
   const [craftInfo, setCraftInfo] = useState(null);
@@ -22,6 +24,7 @@ const ListView = ({ category }) => {
             showCraft={showCraft}
             setShowCraft={setShowCraft}
             setCraftInfo={setCraftInfo}
+            claim={buildingClaim}
           />
         ))}
         <CraftModal

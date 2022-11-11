@@ -60,14 +60,6 @@ const Item = ({ category }) => {
           <div className="text-lg 2xl:text-xl mt-5 2xl:mt-8">
             {resources[category]?.desc}
           </div>
-          {userPlanetsIds.length > 0 && (
-            <div
-              onClick={claim}
-              className="bg-gradient-to-tr from-brand-lightBlue to-brand-lightCyan uppercase text-center text-white text-xl font-semibold font-orbitron py-2 w-full rounded-xl cursor-pointer hover:opacity-90 mt-4"
-            >
-              Claim
-            </div>
-          )}
           {value && (
             <div className="text-lg 2xl:text-xl mt-2">
               <span className="text-brand-lightCyan">Your balance:</span>{" "}

@@ -51,32 +51,40 @@ const Craft = ({ craftInfo, route, claim }) => {
 
   return (
     <div className="h-full w-full flex flex-col gap-6 justify-around bg-brand-darkestBlue rounded-2xl px-10 py-6">
-      <div className="text-4xl text-center font-bold font-audiowide text-brand-lightBlue uppercase">
-        {craftInfo?.name}
-      </div>
+      {!claim && (
+        <div className="text-4xl text-center font-bold font-audiowide text-brand-lightBlue uppercase">
+          {craftInfo?.name}
+        </div>
+      )}
       <div className="rounded-xl w-full p-1 bg-gradient-to-tr from-brand-lightBlue to-brand-lightCyan">
-        <img src={craftInfo?.img} className="rounded-xl" />
+        <img
+          src={!claim ? craftInfo?.img : "/brand/claim-chest.png"}
+          className="rounded-xl"
+        />
       </div>
       <div className="w-full flex items-center justify-around">
-        {craftInfo?.prices.map((p, i) => (
-          <div key={i} className="flex items-center gap-2">
+        {!claim &&
+          craftInfo?.prices.map((p, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <div className="w-10 rounded-full p-1 bg-gradient-to-tr from-brand-lightBlue to-brand-lightCyan">
+                <div className="w-full rounded-full bg-brand-darkestBlue flex items-center justify-center">
+                  <img src={p.img} />
+                </div>
+              </div>
+              <div>{p.value}</div>
+            </div>
+          ))}
+
+        {!claim && (
+          <div className="flex items-center gap-2">
             <div className="w-10 rounded-full p-1 bg-gradient-to-tr from-brand-lightBlue to-brand-lightCyan">
-              <div className="w-full rounded-full bg-brand-darkestBlue flex items-center justify-center">
-                <img src={p.img} />
+              <div className="w-full rounded-full bg-gray-200 flex items-center justify-center">
+                <img src="/brand/time.png" />
               </div>
             </div>
-            <div>{p.value}</div>
+            <div>{moment.utc(craftInfo?.time * 1000).format("H[h] mm[m]")}</div>
           </div>
-        ))}
-
-        <div className="flex items-center gap-2">
-          <div className="w-10 rounded-full p-1 bg-gradient-to-tr from-brand-lightBlue to-brand-lightCyan">
-            <div className="w-full rounded-full bg-gray-200 flex items-center justify-center">
-              <img src="/brand/time.png" />
-            </div>
-          </div>
-          <div>{moment.utc(craftInfo?.time * 1000).format("H[h] mm[m]")}</div>
-        </div>
+        )}
       </div>
       {checkBtn()}
     </div>

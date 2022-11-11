@@ -8,6 +8,7 @@ const Card = ({
   showCraft,
   setShowCraft,
   setCraftInfo,
+  claim,
 }) => {
   const { name, img, desc } = info;
 
@@ -43,7 +44,7 @@ const Card = ({
               onClick={checkButton}
               className="py-0.5 2xl:py-1 w-2/5 text-center rounded bg-gradient-to-tr from-brand-lightBlue to-brand-lightCyan skew-x-[-15deg] cursor-pointer hover:opacity-90"
             >
-              {route === "universe" ? "Send Fleet" : "Craft"}
+              {route === "universe" ? "Send Fleet" : claim ? "Claim" : "Craft"}
             </div>
           )}
         </div>

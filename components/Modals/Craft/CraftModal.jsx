@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import Galaxygon from "../../../context/context";
 import Craft from "./Craft";
 import Crafting from "./Crafting";
