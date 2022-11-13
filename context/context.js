@@ -129,7 +129,7 @@ export const GalaxygonProvider = ({ children }) => {
       setPlanetsContract(
         new ethers.Contract(
           PLANETS_ADDRESS,
-          planetsABI.abi,
+          planetsABI,
           signer || provider || mumbaiProvider
         )
       );

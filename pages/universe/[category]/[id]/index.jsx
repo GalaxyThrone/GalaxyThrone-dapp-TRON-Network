@@ -7,6 +7,7 @@ import Galaxygon from "../../../../context/context";
 import { buildingsList } from "../../../../lib/buildings";
 import { DIAMOND_ADDRESS } from "../../../../lib/contracts/contracts";
 import { allPlanets } from "../../../../lib/planets";
+import { fleetList } from "../../../../lib/ships";
 
 const App = () => {
   const router = useRouter();
@@ -17,6 +18,7 @@ const App = () => {
   const [item, setItem] = useState(null);
   const [ownr, setOwnr] = useState(null);
   const [planetBuildings, setPlanetBuildings] = useState(null);
+  const [planetFleet, setPlanetFleet] = useState(null);
 
   useEffect(() => {
     if (router.query.category && router.query.id) {
@@ -68,9 +70,23 @@ const App = () => {
         setPlanetBuildings(amounts);
       };
 
+      const checkFleet = async () => {
+        const amounts = [];
+
+        for (let i = 1; i < 10; i++) {
+          const idToAmount = await planetsContract.fleets(id, i);
+          amounts.push(parseInt(ethers.utils.formatUnits(idToAmount, 0)));
+        }
+
+        setPlanetFleet(amounts);
+      };
+
       checkBuildings();
+      checkFleet();
     }
   }, [planetsContract, id, ownr]);
+
+  console.log("he", planetFleet);
 
   return (
     <InnerLayout>
@@ -144,7 +160,7 @@ const App = () => {
             })}
           </div>
         </div>
-        {planetBuildings && (
+        {ownr && (
           <div className="flex gap-6 items-start">
             <div className="w-1/2 flex flex-col gap-4">
               <div className="font-orbitron text-2xl">Planet Buldings: </div>
@@ -154,6 +170,18 @@ const App = () => {
                   <div className="uppercase text-2xl w-40">{b.name}</div>
                   <div className="uppercase text-2xl">
                     {planetBuildings ? planetBuildings[i] : 0}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="w-1/2 flex flex-col gap-4">
+              <div className="font-orbitron text-2xl">Planet Fleet: </div>
+              {fleetList.map((f, i) => (
+                <div key={i} className="flex items-center gap-5">
+                  <img src={f.img} className="w-16" />
+                  <div className="uppercase text-2xl w-40">{f.name}</div>
+                  <div className="uppercase text-2xl">
+                    {planetFleet ? planetFleet[i] : 0}
                   </div>
                 </div>
               ))}
