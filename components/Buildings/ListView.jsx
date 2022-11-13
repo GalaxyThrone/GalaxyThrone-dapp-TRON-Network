@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import Galaxygon from "../../context/context";
 import { allBuildings } from "../../lib/buildings";
-import CraftModal from "../Modals/Craft/CraftModal";
+import CraftModal from "../Modals/Craft/BuildingCraftModal";
 
 import Card from "../_shared/Card";
 

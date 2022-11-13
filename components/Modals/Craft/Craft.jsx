@@ -3,7 +3,8 @@ import { useContext } from "react";
 import Galaxygon from "../../../context/context";
 
 const Craft = ({ craftInfo, route, claim }) => {
-  const { diamond, userPlanetsIds, signer } = useContext(Galaxygon);
+  const { diamond, userPlanetsIds, signer, setFleetClaim, setBuildingClaim } =
+    useContext(Galaxygon);
 
   const checkRoute = async () => {
     if (route === "buildings") {
@@ -17,9 +18,11 @@ const Craft = ({ craftInfo, route, claim }) => {
   const claimer = async () => {
     if (route === "buildings") {
       await diamond.claimBuilding(userPlanetsIds[0]); // to change to handle more planets
+      setBuildingClaim(false);
     }
     if (route === "fleet") {
       await diamond.claimFleet(userPlanetsIds[0]); // to change to handle more planets
+      setFleetClaim(false);
     }
   };
 
@@ -40,7 +43,7 @@ const Craft = ({ craftInfo, route, claim }) => {
             onClick={claimer}
             className="bg-gradient-to-tr from-brand-lightBlue to-brand-lightCyan uppercase text-center text-white text-xl font-semibold font-orbitron py-3 w-full rounded-xl cursor-pointer hover:opacity-90"
           >
-            Claim your building
+            Claim your {route === "fleet" ? "ship" : "building"}
           </div>
         );
       }

@@ -70,6 +70,8 @@ export const GalaxygonProvider = ({ children }) => {
   const [buildingCrafting, setBuildingCrafting] = useState(false);
   const [buildingClaim, setBuildingClaim] = useState(false);
   const [resourcesClaimed, setResourcesClaimed] = useState(false);
+  const [fleetCrafting, setFleetCrafting] = useState(false);
+  const [fleetClaim, setFleetClaim] = useState(false);
 
   useEffect(() => {
     const mProvider = new ethers.providers.JsonRpcProvider(rpcUrl);
@@ -237,7 +239,7 @@ export const GalaxygonProvider = ({ children }) => {
 
   useEffect(() => {
     if (diamond && userPlanetsIds.length > 0) {
-      const checkCraft = async () => {
+      const checkBuildingCraft = async () => {
         const timestamp = await diamond.getCraftBuildings(userPlanetsIds[0]);
         const now = moment().unix();
         if (now < parseInt(ethers.utils.formatUnits(timestamp[1], 0))) {
@@ -247,7 +249,20 @@ export const GalaxygonProvider = ({ children }) => {
           setBuildingCrafting(false);
         }
       };
-      checkCraft();
+
+      const checkFleetCraft = async () => {
+        const timestamp = await diamond.getCraftFleets(userPlanetsIds[0]);
+        const now = moment().unix();
+        if (now < parseInt(ethers.utils.formatUnits(timestamp[1], 0))) {
+          setFleetCrafting(true);
+        } else if (parseInt(ethers.utils.formatUnits(timestamp[1], 0)) !== 0) {
+          setFleetClaim(true);
+          setFleetCrafting(false);
+        }
+      };
+
+      checkBuildingCraft();
+      checkFleetCraft();
     }
   }, [diamond, userPlanetsIds, router.query]);
 
@@ -279,6 +294,10 @@ export const GalaxygonProvider = ({ children }) => {
         buildingCrafting,
         resourcesClaimed,
         setResourcesClaimed,
+        fleetClaim,
+        fleetCrafting,
+        setFleetClaim,
+        setBuildingClaim,
       }}
     >
       {children}
