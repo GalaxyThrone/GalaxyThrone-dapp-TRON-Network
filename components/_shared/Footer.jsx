@@ -14,7 +14,7 @@ const Footer = () => {
           <div className="text-lg font-bold font-orbitron">GalaxyThrone</div>
         </div>
       </Link>
-      <div>© 2022 Hansel. All rights reserved.</div>
+      <div>© 2022 GalaxyThrone. All rights reserved.</div>
     </div>
   );
 };

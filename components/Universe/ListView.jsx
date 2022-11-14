@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { allPlanets } from "../../lib/planets";
+import SendFleetModal from "../Modals/Craft/SendFleetModal";
 import Card from "../_shared/Card";
 
 const ListView = ({ category }) => {
   const route = "universe";
+  const [showModal, setShowModal] = useState(false);
 
   const main = () => {
     if (category === "galaxy-1") {
@@ -15,6 +18,8 @@ const ListView = ({ category }) => {
               index={i}
               route={route}
               category={category}
+              showModal={showModal}
+              setShowModal={setShowModal}
             />
           ))}
         </div>
@@ -22,7 +27,14 @@ const ListView = ({ category }) => {
     }
   };
 
-  return <div>{main()}</div>;
+  return (
+    <div>
+      {main()}
+      {showModal && (
+        <SendFleetModal showModal={showModal} setShowModal={setShowModal} />
+      )}
+    </div>
+  );
 };
 
 export default ListView;

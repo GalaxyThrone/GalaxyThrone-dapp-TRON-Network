@@ -86,8 +86,6 @@ const App = () => {
     }
   }, [planetsContract, id, ownr]);
 
-  console.log("he", planetFleet);
-
   return (
     <InnerLayout>
       <div className="h-full flex flex-col overflow-auto gap-6">

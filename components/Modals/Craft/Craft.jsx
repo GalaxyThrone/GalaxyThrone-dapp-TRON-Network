@@ -3,14 +3,8 @@ import { useContext } from "react";
 import Galaxygon from "../../../context/context";
 
 const Craft = ({ craftInfo, route, claim }) => {
-  const {
-    diamond,
-    userPlanetsIds,
-    signer,
-    setFleetClaim,
-    setBuildingClaim,
-    planetToCheck,
-  } = useContext(Galaxygon);
+  const { diamond, signer, setFleetClaim, setBuildingClaim, planetToCheck } =
+    useContext(Galaxygon);
 
   const checkRoute = async () => {
     if (route === "buildings") {

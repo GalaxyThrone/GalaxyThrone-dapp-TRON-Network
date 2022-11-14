@@ -9,12 +9,14 @@ const Card = ({
   setShowCraft,
   setCraftInfo,
   claim,
+  showModal,
+  setShowModal,
 }) => {
   const { name, img, desc } = info;
 
   const checkButton = () => {
     if (route === "universe") {
-      return;
+      setShowModal(!showModal);
     } else {
       setShowCraft(!showCraft);
       setCraftInfo(info);

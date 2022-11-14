@@ -98,9 +98,9 @@ const InnerNav = ({ active }) => {
     <div className="flex items-center justify-between bg-brand-darkBlue w-full h-full text-white font-orbitron uppercase rounded-tr-xl border-b border-brand-darkestBlue px-8">
       {main()}
       <div className="flex items-center gap-5">
-        {(rootPath === "buildings" || rootPath === "fleet") && (
-          <PlanetsDropdown />
-        )}
+        {(rootPath === "buildings" ||
+          rootPath === "fleet" ||
+          rootPath === "universe") && <PlanetsDropdown />}
         {resources && router.asPath !== "/home" && checkResources()}
       </div>
     </div>
