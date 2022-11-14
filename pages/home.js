@@ -22,7 +22,7 @@ const Home = () => {
           <div className="w-1/3 h-full 2xl:w-1/3 text-center flex flex-col justify-between 2xl:justify-center gap-28">
             <div className="h-2/5">
               <div className="text-4xl font-bold font-audiowide text-brand-lightBlue uppercase">
-                GALAXYGON
+                GALAXY THRONE
               </div>
               <div className="uppercase text-3xl mt-2">
                 A NEW ERA OF WEB3 GAMING

@@ -13,7 +13,9 @@ const Resources = () => {
     planetsContract,
     resourceClaimed,
     setResourcesClaimed,
+    planetToCheck,
   } = useContext(Galaxygon);
+
   const [planetIds, setPlanetIds] = useState([]);
   const [timeToClaim, setTimeToClaim] = useState([]);
   const [boosts, setBoosts] = useState([]);
@@ -53,8 +55,8 @@ const Resources = () => {
   };
 
   useEffect(() => {
-    if (userPlanetsIds) {
-      setPlanetIds([userPlanetsIds[0], userPlanetsIds[0], userPlanetsIds[0]]);
+    if (userPlanetsIds.length > 0) {
+      setPlanetIds([planetToCheck, planetToCheck, planetToCheck]);
     }
   }, [userPlanetsIds]);
 

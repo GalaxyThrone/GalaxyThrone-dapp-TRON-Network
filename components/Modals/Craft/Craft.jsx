@@ -3,25 +3,31 @@ import { useContext } from "react";
 import Galaxygon from "../../../context/context";
 
 const Craft = ({ craftInfo, route, claim }) => {
-  const { diamond, userPlanetsIds, signer, setFleetClaim, setBuildingClaim } =
-    useContext(Galaxygon);
+  const {
+    diamond,
+    userPlanetsIds,
+    signer,
+    setFleetClaim,
+    setBuildingClaim,
+    planetToCheck,
+  } = useContext(Galaxygon);
 
   const checkRoute = async () => {
     if (route === "buildings") {
-      await diamond.craftBuilding(craftInfo.id, userPlanetsIds[0]); // to change to handle more planets
+      await diamond.craftBuilding(craftInfo.id, planetToCheck);
     }
     if (route === "fleet") {
-      await diamond.craftFleet(craftInfo.id, userPlanetsIds[0]); // to change to handle more planets
+      await diamond.craftFleet(craftInfo.id, planetToCheck);
     }
   };
 
   const claimer = async () => {
     if (route === "buildings") {
-      await diamond.claimBuilding(userPlanetsIds[0]); // to change to handle more planets
+      await diamond.claimBuilding(planetToCheck);
       setBuildingClaim(false);
     }
     if (route === "fleet") {
-      await diamond.claimFleet(userPlanetsIds[0]); // to change to handle more planets
+      await diamond.claimFleet(planetToCheck);
       setFleetClaim(false);
     }
   };

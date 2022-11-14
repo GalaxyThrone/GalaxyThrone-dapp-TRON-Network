@@ -13,7 +13,7 @@ const Card = ({
   const { name, img, desc } = info;
 
   const checkButton = () => {
-    if (route === "planets") {
+    if (route === "universe") {
       return;
     } else {
       setShowCraft(!showCraft);

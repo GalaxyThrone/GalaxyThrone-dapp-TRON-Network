@@ -14,7 +14,7 @@ const NavBar = () => {
         <Link href="/">
           <div className="flex items-center gap-3 cursor-pointer">
             <div className="text-lg font-extrabold tracking-tight logo text-white font-orbitron">
-              Galaxygon
+              GalaxyThrone
             </div>
           </div>
         </Link>

@@ -1,31 +1,10 @@
-import { ethers } from "ethers";
-import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import Galaxygon from "../../context/context";
 import { resources } from "../../lib/resource";
 
 const Item = ({ category }) => {
-  const { userMetal, userCrystal, userEthereus, userPlanetsIds, diamond } =
-    useContext(Galaxygon);
+  const { userMetal, userCrystal, userEthereus } = useContext(Galaxygon);
   const [value, setValue] = useState(null);
-
-  const router = useRouter();
-
-  const rootSplit = router.asPath.split("/");
-  const rootPath = rootSplit[0].toLowerCase();
-
-  // change userPlanetsIds to find the correct one
-  const claim = async () => {
-    if (category === "metal") {
-      await diamond.mineMetal(userPlanetsIds[0]);
-    }
-    if (category === "crystal") {
-      await diamond.mineCrystal(userPlanetsIds[0]);
-    }
-    if (category === "ethereus") {
-      await diamond.mineEthereus(userPlanetsIds[0]);
-    }
-  };
 
   useEffect(() => {
     if (userMetal && userCrystal && userEthereus) {

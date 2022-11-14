@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import Galaxygon from "../../context/context";
 import { checkNavLinks } from "../../lib/constants";
+import PlanetsDropdown from "./PlanetsDropdown";
 import ResourceDisplay from "./ResourceDisplay";
 
 const InnerNav = ({ active }) => {
@@ -13,6 +14,7 @@ const InnerNav = ({ active }) => {
   const [links, setLinks] = useState();
   const [navActive, setNavActive] = useState();
   const [hover, setHover] = useState("");
+  const [rootPath, setRootPath] = useState(null);
 
   useEffect(() => {
     if (active !== "home") {
@@ -41,6 +43,13 @@ const InnerNav = ({ active }) => {
       };
     }
   }, [router.asPath, links]);
+
+  useEffect(() => {
+    const rootSplit = router.asPath.split("/");
+    const rPath = rootSplit[1].toLowerCase();
+
+    setRootPath(rPath);
+  }, [router.query]);
 
   const main = () => {
     return (
@@ -88,7 +97,12 @@ const InnerNav = ({ active }) => {
   return (
     <div className="flex items-center justify-between bg-brand-darkBlue w-full h-full text-white font-orbitron uppercase rounded-tr-xl border-b border-brand-darkestBlue px-8">
       {main()}
-      {resources && router.asPath !== "/home" && checkResources()}
+      <div className="flex items-center gap-5">
+        {(rootPath === "buildings" || rootPath === "fleet") && (
+          <PlanetsDropdown />
+        )}
+        {resources && router.asPath !== "/home" && checkResources()}
+      </div>
     </div>
   );
 };

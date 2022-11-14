@@ -5,8 +5,8 @@ const SideNav = ({ active }) => {
   return (
     <div className="bg-brand-darkestBlue w-full h-full text-white font-audiowide rounded-l-xl">
       <Link href="/home">
-        <div className="h-1/6 text-2xl font-semibold font-orbitron flex items-center justify-center border-b border-gray-400 cursor-pointer">
-          Galaxygon
+        <div className="h-1/6 text-xl font-semibold font-orbitron flex items-center justify-center border-b border-gray-400 cursor-pointer">
+          GalaxyThrone
         </div>
       </Link>
       <div className="h-5/6 w-full flex flex-col uppercase overflow-auto">

@@ -49,7 +49,7 @@ const Home = () => {
     <div className="bg-[url('/brand/Untitled.png')] bg-cover bg-no-repeat bg-[#4D4D4D] bg-blend-overlay w-full h-full flex items-center justify-center">
       <div className="w-1/2 2xl:w-1/3 rounded-2xl shadow-slide bg-brand-mediumBlue text-white px-16 pb-12 py-10">
         <div className="text-4xl text-center font-bold font-orbitron">
-          Welcome to Galaxygon
+          Welcome to Galaxy Throne
         </div>
         <div className="mt-6 text-xl font-teko tracking-wider">
           The new era of{" "}

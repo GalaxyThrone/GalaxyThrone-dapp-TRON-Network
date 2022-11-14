@@ -22,16 +22,23 @@ import { useRouter } from "next/router";
 import moment from "moment";
 
 const rpcUrl =
-  "https://polygon-mumbai.g.alchemy.com/v2/SeyWmSZubocxNcqaWaiR--xe00RiT1ig";
+  /* "https://polygon-mumbai.g.alchemy.com/v2/SeyWmSZubocxNcqaWaiR--xe00RiT1ig"; */
+  "https://rpc.bt.io/";
 const injected = injectedModule();
 
 init({
   wallets: [injected],
   chains: [
-    {
+    /*     {
       id: "0x80001",
       token: "MATIC",
       label: "Polygon Mumbai",
+      rpcUrl,
+    }, */
+    {
+      id: "0x199",
+      token: "BTT",
+      label: "BitTorrent Chain Mainnet",
       rpcUrl,
     },
   ],
@@ -72,6 +79,7 @@ export const GalaxygonProvider = ({ children }) => {
   const [resourcesClaimed, setResourcesClaimed] = useState(false);
   const [fleetCrafting, setFleetCrafting] = useState(false);
   const [fleetClaim, setFleetClaim] = useState(false);
+  const [planetToCheck, setPlanetToCheck] = useState(null);
 
   useEffect(() => {
     const mProvider = new ethers.providers.JsonRpcProvider(rpcUrl);
@@ -238,33 +246,43 @@ export const GalaxygonProvider = ({ children }) => {
   }, [planetsTotalSupply]);
 
   useEffect(() => {
-    if (diamond && userPlanetsIds.length > 0) {
+    if (diamond && planetToCheck) {
       const checkBuildingCraft = async () => {
-        const timestamp = await diamond.getCraftBuildings(userPlanetsIds[0]);
+        const timestamp = await diamond.getCraftBuildings(planetToCheck);
         const now = moment().unix();
         if (now < parseInt(ethers.utils.formatUnits(timestamp[1], 0))) {
           setBuildingCrafting(true);
         } else if (parseInt(ethers.utils.formatUnits(timestamp[1], 0)) !== 0) {
           setBuildingClaim(true);
           setBuildingCrafting(false);
+        } else {
+          setBuildingClaim(false);
         }
       };
 
       const checkFleetCraft = async () => {
-        const timestamp = await diamond.getCraftFleets(userPlanetsIds[0]);
+        const timestamp = await diamond.getCraftFleets(planetToCheck);
         const now = moment().unix();
         if (now < parseInt(ethers.utils.formatUnits(timestamp[1], 0))) {
           setFleetCrafting(true);
         } else if (parseInt(ethers.utils.formatUnits(timestamp[1], 0)) !== 0) {
           setFleetClaim(true);
           setFleetCrafting(false);
+        } else {
+          setFleetClaim(false);
         }
       };
 
       checkBuildingCraft();
       checkFleetCraft();
     }
-  }, [diamond, userPlanetsIds, router.query]);
+  }, [diamond, router.query, planetToCheck]);
+
+  useEffect(() => {
+    if (userPlanetsIds.length > 0) {
+      setPlanetToCheck(userPlanetsIds[0]);
+    }
+  }, [router.query, userPlanetsIds]);
 
   return (
     <Galaxygon.Provider
@@ -298,6 +316,8 @@ export const GalaxygonProvider = ({ children }) => {
         fleetCrafting,
         setFleetClaim,
         setBuildingClaim,
+        planetToCheck,
+        setPlanetToCheck,
       }}
     >
       {children}

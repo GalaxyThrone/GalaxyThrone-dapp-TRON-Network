@@ -11,7 +11,7 @@ const Footer = () => {
       </div>
       <Link href="/">
         <div className=" flex items-center gap-2.5 cursor-pointer">
-          <div className="text-lg font-bold font-orbitron">Galaxygon</div>
+          <div className="text-lg font-bold font-orbitron">GalaxyThrone</div>
         </div>
       </Link>
       <div>© 2022 Hansel. All rights reserved.</div>
